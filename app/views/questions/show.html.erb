@@ -1,0 +1,45 @@
+<h1><%= @question.title %></h1>
+<p><%= @question.body %></p>
+<p>By:<%= @question.user&.full_name %></p>
+<%#  '&' is the safe navigation operator. It can be used to avoid "undefined method" '...' for nil:NilClass" errors 
+When used instead of '.' it will check the object before trying to execute the method after it. If the object
+is nil then it immediately returns 'nil'%>
+<p><strong>View count:</strong> <%= @question.view_count %></p>
+<p><strong>Created at:</strong> <%= time_ago_in_words(@question.created_at) %> ago</p>
+<p><strong>Created at:</strong> <%= time_ago_in_words(@question.updated_at)%> ago</p>
+<% if user_signed_in? && can?(:manage, @question) %>
+<%= link_to 'Edit', edit_question_path(@question)%>
+<%= link_to 'Delete', question_path(@question), method: :delete %>
+<% end %>
+<%# When you use 'method: :delete' rails will use javascript to mimick a delete request to the server. %>
+
+<%# If we want to create a form for a resource that is nested inside another, we must give 'form_for' the resources in an array in the order
+of ancestor to descendant like below. This will create a form that uses 'question_answers_path'
+to generate the value for its 'action' attribute. %>
+<h2>Answers</h2>
+<%= form_for [@question,@answer] do |f| %>
+<% if @answer.errors.present? %>
+
+     <p>
+        <%= @answer.errors.full_messages.join(', ')%>
+     </p>
+     <% end %>
+<div>
+<%= f.text_area :body %>
+</div>
+<%= f.submit %>
+<% end %>
+
+<div class ="answer-list">
+<% @answers.each do |answer| %>
+    <div class='answer-list-item'>
+        
+         <p><%= answer.body %></p>
+      <p><strong>Created At:</strong> <%= time_ago_in_words(answer.created_at)+ " ago" %></p>
+      <p>By:<%= answer.user&.full_name %></p>
+      <% if can?(:destroy, answer) %>
+      <%= link_to 'Delete', answer_path(answer), method: :delete , data: {confirm: 'Are you sure?'} %>
+      <% end %>
+    </div>
+  <% end %>
+  </div>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AwesomeAnswers</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+             <!-- <a href = '/'>Home</a> -->
+    <!-- The following 👇 is the same as ☝️ -->
+    <%= link_to('Home', root_path) %>
+    |
+    <%= link_to('New Question', new_question_path) %>
+    |
+    <!-- <a href = '/hello'>About Us</a> -->
+    <%= link_to('About Us', hello_path) %>
+    |
+    <%= link_to("Questions", questions_path)%>
+    |
+    <%= link_to('Subscribe', subscribe_path) %>
+    |
+    <% if current_user.present? %>
+      <span> Hello, <%= current_user.first_name %> <%= current_user.last_name  %></span>
+      <%= link_to 'Sign Out', session_path, method: :delete %>
+     <% if current_user.is_admin? %>
+      <%= link_to 'Dashboard', admin_dashboard_index_path %>
+      <% end %>
+      <% else %>
+    <%= link_to('Sign Up', new_user_path) %>
+    <%= link_to 'Sign In', new_session_path %>
+    <% end %>
+    <hr>
+    <%# To display messages from the global flash object, we must write the code in our views to be able to do so
+    Here, we display the flash notice if it exists.  %>
+    <div class="container">
+     <% if flash[:notice].present? %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <% if flash[:alert].present? %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+    <%= yield %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<h1>Admin Dashboard</h1>
+
+<h2>Question Count: <%= @stats[:question_count] %></h2>
+<h2>Answer Count: <%= @stats[:answer_count] %></h2>
+<h2>User Count: <%= @stats[:user_count] %></h2>
+
+<table class='table'>
+    <tbody>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+
+            <th>Email</th>
+            <th>Created At:</th>
+            <th>Is Adming:</th>
+        </tr>
+
+        <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.created_at %></td>
+        <td><%= user.is_admin? %></td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>

@@ -1,0 +1,20 @@
+<h1>Sign In</h1>
+<%= form_for :session, url: session_path do |f| %>
+<%# We can use 'form_for' to generate arbitrary forms without providing a model instance. Instead
+Provide it with a symbol. And, you can also specify the 'action' attribute for the form with 
+the argument 'url: ...'  %>
+ 
+
+   
+   
+    <div>
+     <%= f.label :email %>
+     <%= f.email_field :email%>
+    </div>
+    <div>
+     <%= f.label :password %>
+     <%= f.password_field :password %>
+    </div>
+   
+    <%= f.submit 'Sign In' %>
+    <% end %>
